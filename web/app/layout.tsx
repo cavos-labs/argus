@@ -16,6 +16,7 @@ export const metadata: Metadata = {
     description: 'Permissionless on-chain RSA public key registry secured by zkTLS proofs on Starknet.',
     type: 'website',
     siteName: 'Argus',
+    images: [{ url: '/og-image.png', width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',
@@ -23,6 +24,7 @@ export const metadata: Metadata = {
     description: 'Permissionless on-chain RSA public key registry for Google, Apple & Firebase — zkTLS proofs on Starknet.',
     site: '@cavos_xyz',
     creator: '@cavos_xyz',
+    images: ['/og-image.png'],
   },
 };
 
