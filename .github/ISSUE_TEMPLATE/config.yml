@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: mailto:security@cavos.xyz
+    about: Do not open public issues for security vulnerabilities. Email us directly.
+  - name: Cavos Discord
+    url: https://discord.gg/cavos
+    about: Questions and general discussion
