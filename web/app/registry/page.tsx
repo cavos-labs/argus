@@ -53,7 +53,7 @@ export default function RegistryPage() {
   }, [fetchKeys]);
 
   return (
-    <main style={{ backgroundColor: '#161616', color: '#ffffff', minHeight: '100vh' }}>
+    <main style={{ backgroundColor: '#000', color: '#ffffff', minHeight: '100vh' }}>
       {/* Nav */}
       <nav
         style={{

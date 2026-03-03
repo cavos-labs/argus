@@ -127,7 +127,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 export default function DocsPage() {
   return (
-    <main style={{ backgroundColor: '#161616', color: '#ffffff', minHeight: '100vh' }}>
+    <main style={{ backgroundColor: '#000', color: '#ffffff', minHeight: '100vh' }}>
       {/* Nav */}
       <nav
         style={{

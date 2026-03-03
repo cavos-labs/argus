@@ -15,6 +15,14 @@ export const metadata: Metadata = {
     title: 'Argus — Trustless JWKS Registry',
     description: 'Permissionless on-chain RSA public key registry secured by zkTLS proofs on Starknet.',
     type: 'website',
+    siteName: 'Argus',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Argus — Trustless JWKS Registry',
+    description: 'Permissionless on-chain RSA public key registry for Google, Apple & Firebase — zkTLS proofs on Starknet.',
+    site: '@cavos_xyz',
+    creator: '@cavos_xyz',
   },
 };
 
