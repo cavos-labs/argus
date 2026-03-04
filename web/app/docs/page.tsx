@@ -3,12 +3,12 @@ import Image from 'next/image';
 
 const ADDRESSES = {
   sepolia: {
-    argus: '0x065a77e8b23a20a804124dc33040b7a0e36c17f34596124caf81f64a27815b56',
-    jwksRegistry: '0x0514157c3e910e6b733af913eddf1a38c63ea1e31be338bebc622265218f5bb4',
+    argus: '0x0588d39d803294aa4aa72ce0d17650d33180bcd8bd5f7ac99fd24f7e3ea9d702',
+    jwksRegistry: '0x074e56464afb566ca9d7c753eb378dbcc7c77f30b280737164c803c83355c75f',
   },
   mainnet: {
-    argus: '0x058b886f831d15a865f6e007f21eb1c77a6a4e943f867e23c5293289c969d101',
-    jwksRegistry: '0x04dc4a75126ad6b26eae2e1e5d17f7e5436cfe7a2e168b1326d0ac1704aa563e',
+    argus: '0x01796bf149bbd13057236732c12faed1de9bdca96e6f3e714fba0d12cfaad8be',
+    jwksRegistry: '0x060bb574466f7ac59df3ad58f3bd31c0ca94b563b2249340367cf82aea4c6c93',
   },
 };
 
@@ -231,8 +231,18 @@ export default function DocsPage() {
           <p style={{ color: '#888', fontSize: '13px', marginBottom: '16px' }}>
             Latest declared class hash (Argus):
           </p>
+          <p style={{ color: '#888', fontSize: '13px', marginBottom: '8px' }}>
+            JWKSRegistry:
+          </p>
           <CodeBlock
-            code="0x24c091963cb42fdeed6b381d70c90cbdea4730f4fecfb38f5471868fb4236c7"
+            code="0x498906ddc9227cb1ed39b55690f6dd481e5c433e806793202a409d1ffba0834"
+            lang="text"
+          />
+          <p style={{ color: '#888', fontSize: '13px', margin: '16px 0 8px' }}>
+            Argus:
+          </p>
+          <CodeBlock
+            code="0x20396641b648fde866322051fde319af3455aff95a7b2c0e6c05728b621e2fe"
             lang="text"
           />
         </Section>
@@ -341,10 +351,6 @@ export default function DocsPage() {
               <li>
                 <strong style={{ color: '#ccc' }}>kid and RSA modulus n</strong> — parsed from the proof context
                 and compared against the submitted key.
-              </li>
-              <li>
-                <strong style={{ color: '#ccc' }}>Montgomery constants</strong> — n_prime and r_sq are verified
-                mathematically on-chain, preventing griefing via malformed constants.
               </li>
               <li>
                 <strong style={{ color: '#ccc' }}>zkTLS proof</strong> — Reclaim Protocol cryptographically attests

@@ -7,12 +7,12 @@ import { ArrowDown, ExternalLink, Shield, Zap, Globe } from 'lucide-react';
 
 const ADDRESSES = {
   sepolia: {
-    argus: '0x065a77e8b23a20a804124dc33040b7a0e36c17f34596124caf81f64a27815b56',
-    jwksRegistry: '0x0514157c3e910e6b733af913eddf1a38c63ea1e31be338bebc622265218f5bb4',
+    argus: '0x0588d39d803294aa4aa72ce0d17650d33180bcd8bd5f7ac99fd24f7e3ea9d702',
+    jwksRegistry: '0x074e56464afb566ca9d7c753eb378dbcc7c77f30b280737164c803c83355c75f',
   },
   mainnet: {
-    argus: '0x058b886f831d15a865f6e007f21eb1c77a6a4e943f867e23c5293289c969d101',
-    jwksRegistry: '0x04dc4a75126ad6b26eae2e1e5d17f7e5436cfe7a2e168b1326d0ac1704aa563e',
+    argus: '0x01796bf149bbd13057236732c12faed1de9bdca96e6f3e714fba0d12cfaad8be',
+    jwksRegistry: '0x060bb574466f7ac59df3ad58f3bd31c0ca94b563b2249340367cf82aea4c6c93',
   },
 };
 
@@ -54,7 +54,7 @@ const HOW_IT_WORKS = [
     icon: Shield,
     title: 'On-chain RSA Verification',
     description:
-      'Argus verifies the proof on-chain using 2048-bit Montgomery arithmetic, then writes the key to the JWKS Registry. Anyone can submit.',
+      'Argus verifies the Reclaim proof on-chain, checks the RSA modulus and kid against the proof context, then writes the key to the JWKS Registry. Anyone can submit.',
   },
 ];
 

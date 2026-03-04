@@ -4,8 +4,8 @@ import { RpcProvider, Contract } from 'starknet';
 // ── Contract addresses ───────────────────────────────────────────────────────
 
 const JWKS_REGISTRY = {
-  sepolia: '0x0514157c3e910e6b733af913eddf1a38c63ea1e31be338bebc622265218f5bb4',
-  mainnet: '0x04dc4a75126ad6b26eae2e1e5d17f7e5436cfe7a2e168b1326d0ac1704aa563e',
+  sepolia: '0x074e56464afb566ca9d7c753eb378dbcc7c77f30b280737164c803c83355c75f',
+  mainnet: '0x060bb574466f7ac59df3ad58f3bd31c0ca94b563b2249340367cf82aea4c6c93',
 };
 
 const RPC_URL = {
