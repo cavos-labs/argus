@@ -57,16 +57,13 @@ const ARGUS_ABI = `[
   }
 ]`;
 
-const EXAMPLE_CODE = `import { RpcProvider, Contract } from 'starknet';
+const EXAMPLE_CODE = `import { CallData, Contract, RpcProvider, byteArray, hash } from 'starknet';
 
-// Convert a kid string to felt252
+// Hash a kid string to a felt252-compatible registry key
 function kidToFelt(kid: string): string {
-  const bytes = Buffer.from(kid, 'utf8');
-  let felt = 0n;
-  for (let i = 0; i < Math.min(bytes.length, 31); i++) {
-    felt = felt * 256n + BigInt(bytes[i]);
-  }
-  return '0x' + felt.toString(16);
+  return hash.computePoseidonHashOnElements(
+    CallData.compile(byteArray.byteArrayFromString(kid))
+  );
 }
 
 const provider = new RpcProvider({
@@ -271,10 +268,11 @@ export default function DocsPage() {
         {/* Code example */}
         <Section title="Reading a Key with starknet.js">
           <p style={{ color: '#888', fontSize: '14px', lineHeight: 1.6, marginBottom: '20px' }}>
-            Convert the JWT header <code style={{ fontFamily: 'monospace', color: '#ccc', fontSize: '13px' }}>kid</code>{' '}
-            field to a <code style={{ fontFamily: 'monospace', color: '#ccc', fontSize: '13px' }}>felt252</code> (UTF-8
-            big-endian, max 31 bytes), then call <code style={{ fontFamily: 'monospace', color: '#ccc', fontSize: '13px' }}>is_key_valid</code> on
-            the JWKSRegistry contract.
+            Hash the JWT header <code style={{ fontFamily: 'monospace', color: '#ccc', fontSize: '13px' }}>kid</code>{' '}
+            field into a <code style={{ fontFamily: 'monospace', color: '#ccc', fontSize: '13px' }}>felt252</code>{' '}
+            with Starknet&apos;s ByteArray Poseidon encoding, then call{' '}
+            <code style={{ fontFamily: 'monospace', color: '#ccc', fontSize: '13px' }}>is_key_valid</code>{' '}
+            on the JWKSRegistry contract.
           </p>
           <CodeBlock code={EXAMPLE_CODE} />
         </Section>

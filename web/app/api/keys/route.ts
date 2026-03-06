@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { RpcProvider, Contract } from 'starknet';
+import { CallData, Contract, RpcProvider, byteArray, hash } from 'starknet';
 
 // ── Contract addresses ───────────────────────────────────────────────────────
 
@@ -45,12 +45,9 @@ export interface KeyEntry {
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
 function kidToFelt(kid: string): string {
-  const bytes = Buffer.from(kid, 'utf8');
-  let felt = 0n;
-  for (let i = 0; i < Math.min(bytes.length, 31); i++) {
-    felt = felt * 256n + BigInt(bytes[i]);
-  }
-  return '0x' + felt.toString(16);
+  return hash.computePoseidonHashOnElements(
+    CallData.compile(byteArray.byteArrayFromString(kid))
+  );
 }
 
 async function fetchJWKS(url: string): Promise<JWK[]> {

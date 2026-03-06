@@ -185,9 +185,10 @@ pub mod Argus {
                 panic!("JWKS URL not whitelisted")
             };
 
-            // Step 2: Parse kid from proof context and verify it matches the submitted kid.
+            // Step 2: Parse kid from proof context and verify it matches the submitted full-string
+            // hash.
             let kid_from_proof = find_json_string_value(@proof.claim_info.context, @"kid");
-            let kid_felt_from_proof = bytearray_to_felt252(@kid_from_proof);
+            let kid_felt_from_proof = hash_bytearray(@kid_from_proof);
             assert!(kid_felt_from_proof == kid, "kid mismatch: proof vs submitted");
 
             // Step 3: Parse the base64url-encoded RSA modulus n from the proof context.
@@ -235,24 +236,6 @@ pub mod Argus {
         let mut serialized: Array<felt252> = array![];
         s.serialize(ref serialized);
         poseidon_hash_span(serialized.span())
-    }
-
-    /// Encode a `ByteArray` as a big-endian `felt252` (UTF-8 bytes, ≤ 31 bytes taken).
-    fn bytearray_to_felt252(s: @ByteArray) -> felt252 {
-        let len = s.len();
-        let max_len: usize = if len > 31 {
-            31
-        } else {
-            len
-        };
-        let mut result: felt252 = 0;
-        let mut i: usize = 0;
-        while i < max_len {
-            let byte: felt252 = s.at(i).unwrap().into();
-            result = result * 256 + byte;
-            i += 1;
-        }
-        result
     }
 
     /// Find the string value of a JSON field by name.
@@ -339,6 +322,4 @@ pub mod Argus {
         assert!(*computed.at(14) == *key.n14, "RSA modulus limb 14 mismatch");
         assert!(*computed.at(15) == *key.n15, "RSA modulus limb 15 mismatch");
     }
-
 }
-
