@@ -196,8 +196,8 @@ pub mod Argus {
             let n_b64_len = n_b64.len();
             let n_bytes = base64url_decode(@n_b64, 0, n_b64_len);
 
-            // Step 4: Convert the raw modulus bytes to 16 x u128 limbs (little-endian).
-            let computed_limbs = bytes_to_u128_limbs(@n_bytes);
+            // Step 4: Convert the raw modulus bytes to 17 x 123-bit limbs (little-endian).
+            let computed_limbs = bytes_to_u123_limbs(@n_bytes);
 
             // Step 5: Assert every limb matches — the critical anti-substitution check.
             verify_n_limbs(@computed_limbs, @key);
@@ -283,27 +283,49 @@ pub mod Argus {
         value
     }
 
-    /// Convert 256 big-endian bytes to 16 × u128 limbs in little-endian order.
-    fn bytes_to_u128_limbs(bytes: @Array<u8>) -> Array<u128> {
+    /// Convert 256 big-endian bytes to 17 × 123-bit limbs in little-endian order.
+    fn bytes_to_u123_limbs(bytes: @Array<u8>) -> Array<u128> {
+        let total_bits = bytes.len() * 8;
+        let limb_bits: usize = 123;
+        let limb_count: usize = 17;
         let mut limbs: Array<u128> = array![];
-        let mut limb_index: u32 = 0;
-        while limb_index < 16 {
-            let chunk_index: u32 = 15 - limb_index;
-            let chunk_start: u32 = chunk_index * 16;
-            let mut value: u128 = 0;
-            let mut j: u32 = 0;
-            while j < 16 {
-                let byte: u128 = (*bytes.at(chunk_start + j)).into();
-                value = value * 256 + byte;
-                j += 1;
+
+        let mut limb_index: usize = 0;
+        while limb_index < limb_count {
+            let start_bit = limb_index * limb_bits;
+            let mut acc: u128 = 0;
+            let mut bit_weight: u128 = 1;
+            let mut bit: usize = 0;
+
+            while bit < limb_bits && start_bit + bit < total_bits {
+                let absolute_bit = start_bit + bit;
+                let byte_index = bytes.len() - 1 - (absolute_bit / 8);
+                let bit_index_in_byte = absolute_bit % 8;
+                let byte: u128 = (*bytes.at(byte_index)).into();
+                let divisor: u128 = match bit_index_in_byte {
+                    0 => 1,
+                    1 => 2,
+                    2 => 4,
+                    3 => 8,
+                    4 => 16,
+                    5 => 32,
+                    6 => 64,
+                    _ => 128,
+                };
+                let bit_value = (byte / divisor) % 2;
+                acc = acc + bit_value * bit_weight;
+                bit_weight = bit_weight * 2;
+                bit += 1;
             }
-            limbs.append(value);
+
+            limbs.append(acc);
             limb_index += 1;
         }
+
         limbs
     }
 
-    /// Assert all 16 RSA modulus limbs match the submitted key.
+    /// Assert all 17 RSA modulus limbs match the submitted key.
     fn verify_n_limbs(computed: @Array<u128>, key: @JWKSKey) {
         assert!(*computed.at(0) == *key.n0, "RSA modulus limb 0 mismatch");
         assert!(*computed.at(1) == *key.n1, "RSA modulus limb 1 mismatch");
@@ -321,5 +343,6 @@ pub mod Argus {
         assert!(*computed.at(13) == *key.n13, "RSA modulus limb 13 mismatch");
         assert!(*computed.at(14) == *key.n14, "RSA modulus limb 14 mismatch");
         assert!(*computed.at(15) == *key.n15, "RSA modulus limb 15 mismatch");
+        assert!(*computed.at(16) == *key.n16, "RSA modulus limb 16 mismatch");
     }
 }
