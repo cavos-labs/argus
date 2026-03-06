@@ -7,12 +7,12 @@ import { ArrowDown, ExternalLink, Shield, Zap, Globe } from 'lucide-react';
 
 const ADDRESSES = {
   sepolia: {
-    argus: '0x0588d39d803294aa4aa72ce0d17650d33180bcd8bd5f7ac99fd24f7e3ea9d702',
-    jwksRegistry: '0x074e56464afb566ca9d7c753eb378dbcc7c77f30b280737164c803c83355c75f',
+    argus: '0x00fad0b6b12c2d294598d1b4509298d80c378fbe28382e6193f87e3d48d62c1e',
+    jwksRegistry: '0x059e9f82d07557ebdf16a9a09a86ad9f8a129b04ae4939103ef4baa9d6cfd021',
   },
   mainnet: {
-    argus: '0x01796bf149bbd13057236732c12faed1de9bdca96e6f3e714fba0d12cfaad8be',
-    jwksRegistry: '0x060bb574466f7ac59df3ad58f3bd31c0ca94b563b2249340367cf82aea4c6c93',
+    argus: '0x00cef99bfe23bddb89c3cc19718db3958359e95f8ad67fcba2953fccf7d109c0',
+    jwksRegistry: '0x0012117d272d8eaab706d9488b3a9838c6d686342823e72348d8c466c71e89b4',
   },
 };
 
