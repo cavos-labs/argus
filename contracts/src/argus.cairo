@@ -12,8 +12,7 @@
 ///   - Provider identity is verified by comparing the Reclaim proof's JWKS URL hash
 ///     against hardcoded Poseidon hashes for Google, Apple, and Cavos Firebase.
 ///   - kid and RSA modulus n are verified against proof context fields.
-///   - Montgomery constants removed (Tier 5): RSA witnesses are provided in calldata
-///     and verified on-chain using Schwartz-Zippel polynomial identity testing.
+///   - RSA verification uses Garaga's audited RSA-2048 library.
 
 use starknet::ContractAddress;
 
@@ -196,8 +195,9 @@ pub mod Argus {
             let n_b64_len = n_b64.len();
             let n_bytes = base64url_decode(@n_b64, 0, n_b64_len);
 
-            // Step 4: Convert the raw modulus bytes to 17 x 123-bit limbs (little-endian).
-            let computed_limbs = bytes_to_u123_limbs(@n_bytes);
+            // Step 4: Convert the raw modulus bytes to 24 × 96-bit limbs (little-endian,
+            // Garaga-compatible).
+            let computed_limbs = bytes_to_u96_limbs(@n_bytes);
 
             // Step 5: Assert every limb matches — the critical anti-substitution check.
             verify_n_limbs(@computed_limbs, @key);
@@ -283,15 +283,17 @@ pub mod Argus {
         value
     }
 
-    /// Convert 256 big-endian bytes to 17 × 123-bit limbs in little-endian order.
-    fn bytes_to_u123_limbs(bytes: @Array<u8>) -> Array<u128> {
+    /// Convert 256 big-endian bytes to 24 × 96-bit limbs in little-endian order
+    /// (Garaga-compatible RSA2048Chunks format: 6 × u384 = 24 × u96).
+    /// First 22 limbs hold the 2048-bit value; limbs 22-23 are zero padding.
+    fn bytes_to_u96_limbs(bytes: @Array<u8>) -> Array<felt252> {
         let total_bits = bytes.len() * 8;
-        let limb_bits: usize = 123;
-        let limb_count: usize = 17;
-        let mut limbs: Array<u128> = array![];
+        let limb_bits: usize = 96;
+        let data_limb_count: usize = 22; // ceil(2048/96) = 22
+        let mut limbs: Array<felt252> = array![];
 
         let mut limb_index: usize = 0;
-        while limb_index < limb_count {
+        while limb_index < data_limb_count {
             let start_bit = limb_index * limb_bits;
             let mut acc: u128 = 0;
             let mut bit_weight: u128 = 1;
@@ -318,15 +320,20 @@ pub mod Argus {
                 bit += 1;
             }
 
-            limbs.append(acc);
+            let limb_felt: felt252 = acc.into();
+            limbs.append(limb_felt);
             limb_index += 1;
         }
+
+        // Pad to 24 limbs (top chunk w5 has limb2=0, limb3=0)
+        limbs.append(0);
+        limbs.append(0);
 
         limbs
     }
 
-    /// Assert all 17 RSA modulus limbs match the submitted key.
-    fn verify_n_limbs(computed: @Array<u128>, key: @JWKSKey) {
+    /// Assert all 24 RSA modulus limbs match the submitted key.
+    fn verify_n_limbs(computed: @Array<felt252>, key: @JWKSKey) {
         assert!(*computed.at(0) == *key.n0, "RSA modulus limb 0 mismatch");
         assert!(*computed.at(1) == *key.n1, "RSA modulus limb 1 mismatch");
         assert!(*computed.at(2) == *key.n2, "RSA modulus limb 2 mismatch");
@@ -344,5 +351,12 @@ pub mod Argus {
         assert!(*computed.at(14) == *key.n14, "RSA modulus limb 14 mismatch");
         assert!(*computed.at(15) == *key.n15, "RSA modulus limb 15 mismatch");
         assert!(*computed.at(16) == *key.n16, "RSA modulus limb 16 mismatch");
+        assert!(*computed.at(17) == *key.n17, "RSA modulus limb 17 mismatch");
+        assert!(*computed.at(18) == *key.n18, "RSA modulus limb 18 mismatch");
+        assert!(*computed.at(19) == *key.n19, "RSA modulus limb 19 mismatch");
+        assert!(*computed.at(20) == *key.n20, "RSA modulus limb 20 mismatch");
+        assert!(*computed.at(21) == *key.n21, "RSA modulus limb 21 mismatch");
+        assert!(*computed.at(22) == *key.n22, "RSA modulus limb 22 mismatch");
+        assert!(*computed.at(23) == *key.n23, "RSA modulus limb 23 mismatch");
     }
 }

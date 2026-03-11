@@ -4,8 +4,8 @@ import { CallData, Contract, RpcProvider, byteArray, hash } from 'starknet';
 // ── Contract addresses ───────────────────────────────────────────────────────
 
 const JWKS_REGISTRY = {
-  sepolia: '0x074e56464afb566ca9d7c753eb378dbcc7c77f30b280737164c803c83355c75f',
-  mainnet: '0x060bb574466f7ac59df3ad58f3bd31c0ca94b563b2249340367cf82aea4c6c93',
+  sepolia: '0x0112c6a8a69e4d9a2e74b4638e1495d69266de9f6f796727d4a52a7ab0a48db2',
+  mainnet: '0x076ff6853197538b4d4c925b2c775014fae9b5c14f63262b13f2e49f732e21f7',
 };
 
 const RPC_URL = {

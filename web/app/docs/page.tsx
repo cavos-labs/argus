@@ -3,12 +3,12 @@ import Image from 'next/image';
 
 const ADDRESSES = {
   sepolia: {
-    argus: '0x0588d39d803294aa4aa72ce0d17650d33180bcd8bd5f7ac99fd24f7e3ea9d702',
-    jwksRegistry: '0x074e56464afb566ca9d7c753eb378dbcc7c77f30b280737164c803c83355c75f',
+    argus: '0x07cd8487786091e4a2c1841cad4e16b815d61a068383c2a2b15dcb2415f1d767',
+    jwksRegistry: '0x0112c6a8a69e4d9a2e74b4638e1495d69266de9f6f796727d4a52a7ab0a48db2',
   },
   mainnet: {
-    argus: '0x01796bf149bbd13057236732c12faed1de9bdca96e6f3e714fba0d12cfaad8be',
-    jwksRegistry: '0x060bb574466f7ac59df3ad58f3bd31c0ca94b563b2249340367cf82aea4c6c93',
+    argus: '0x00cbcd49655919c0628fd7d999f8aadcb167a0450a75f9dfffef8ad8175f1de4',
+    jwksRegistry: '0x076ff6853197538b4d4c925b2c775014fae9b5c14f63262b13f2e49f732e21f7',
   },
 };
 

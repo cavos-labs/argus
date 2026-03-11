@@ -4,11 +4,6 @@
 pub mod argus;
 pub mod jwks_registry;
 
-pub mod rsa {
-    pub mod bignum;
-    pub mod rsa_verify;
-}
-
 pub mod jwt {
     pub mod base64;
 }
