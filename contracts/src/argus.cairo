@@ -113,10 +113,14 @@ pub mod Argus {
     const CAVOS_FIREBASE_JWKS_URL_HASH: felt252 =
         0x5ce128d7bed38fb8a9d57e9231fe9a56685a9c8aa35b92ec9e7f313ed6f27b5;
 
-    // Provider labels stored in JWKSKey.provider
-    const PROVIDER_GOOGLE: felt252 = 0x676f6f676c65; // 'google'
-    const PROVIDER_APPLE: felt252 = 0x6170706c65; // 'apple'
-    const PROVIDER_FIREBASE: felt252 = 0x6669726562617365; // 'firebase'
+    // Provider felt252 values stored in JWKSKey.provider.
+    // Must match EXPECTED_ISS_* constants in cavos_account.cairo (full issuer URL packed as felt252).
+    const PROVIDER_GOOGLE: felt252 =
+        0x68747470733a2f2f6163636f756e74732e676f6f676c652e636f6d; // 'https://accounts.google.com'
+    const PROVIDER_APPLE: felt252 =
+        0x68747470733a2f2f6170706c6569642e6170706c652e636f6d; // 'https://appleid.apple.com'
+    const PROVIDER_FIREBASE: felt252 =
+        0x68747470733a2f2f6361766f732e6170702f6669726562617365; // 'https://cavos.app/firebase'
 
     // ── Storage
     // ───────────────────────────────────────────────────────────────

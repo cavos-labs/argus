@@ -35,7 +35,6 @@ pub struct JWKSKey {
     pub n21: felt252,
     pub n22: felt252,
     pub n23: felt252,
-    /// Provider identifier (hash of 'google' or 'apple')
     pub provider: felt252,
     /// Expiry timestamp (0 = no expiry)
     pub valid_until: u64,
